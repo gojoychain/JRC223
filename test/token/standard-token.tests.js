@@ -6,7 +6,6 @@ const NonReceiverMock = artifacts.require('./mock/NonReceiverMock.sol')
 const BlockHeightManager = require('../util/block-height-manager')
 const sassert = require('../util/sol-assert')
 const ABI = require('../data/abi')
-const Utils = require('../util')
 
 const web3 = global.web3
 
