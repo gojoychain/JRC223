@@ -1,0 +1,34 @@
+{
+  "name": "grc223",
+  "version": "1.0.0",
+  "description": "Token standard for Ghuchain",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghuchain/GRC223.git"
+  },
+  "keywords": [
+    "ghuchain",
+    "erc223",
+    "ethereum",
+    "blockchain"
+  ],
+  "author": "Deric Walintukan <deric@ghuchain.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ghuchain/GRC223/issues"
+  },
+  "homepage": "https://github.com/ghuchain/GRC223#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "bluebird": "^3.5.3",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  }
+}
