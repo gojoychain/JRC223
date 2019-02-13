@@ -1,11 +1,11 @@
 const { assert } = require('chai')
 
-const StandardTokenMock = artifacts.require('./mock/StandardTokenMock.sol')
-const GRC223ReceiverMock = artifacts.require('./mock/GRC223ReceiverMock.sol')
-const NonReceiverMock = artifacts.require('./mock/NonReceiverMock.sol')
 const TimeMachine = require('../util/time-machine')
 const sassert = require('../util/sol-assert')
 const ABI = require('../data/abi')
+const StandardTokenMock = artifacts.require('./mock/StandardTokenMock.sol')
+const GRC223ReceiverMock = artifacts.require('./mock/GRC223ReceiverMock.sol')
+const NonReceiverMock = artifacts.require('./mock/NonReceiverMock.sol')
 
 const web3 = global.web3
 
@@ -110,7 +110,7 @@ contract('StandardToken', (accounts) => {
       assert.equal(await token.balanceOf(ACCT2), 0)
     })
 
-    it('transfers the token to NRC1 contract and calls tokenFallback', async () => {
+    it('transfers the token to GRC223 contract and calls tokenFallback', async () => {
       assert.equal(await token.balanceOf(OWNER, { from: OWNER }), TOKEN_PARAMS.initialBalance)
       assert.isFalse(await receiver.tokenFallbackExec.call())
 
@@ -124,20 +124,18 @@ contract('StandardToken', (accounts) => {
     })
 
     it('should emit both Transfer events', async () => {
-      token.Transfer['address,address,uint256']()
-      .watch((err, res) => {
-        assert.isNull(err)
-        assert.equal(res.event, 'Transfer')
-      })
+      const transferAmt = 1234567
+      const contract = new web3.eth.Contract(ABI.StandardTokenMock, token.address)
+      let receipt = await contract.methods['transfer(address,uint256)'](receiver.address, transferAmt).send({ from: OWNER })
+      assert.isDefined(receipt.events.Transfer)
+      assert.isDefined(receipt.events.Transfer223)
 
-      token.Transfer['address,address,uint256,bytes']()
-      .watch((err, res) => {
-        assert.isNull(err)
-        assert.equal(res.event, 'Transfer')
-      })
+      receipt = await contract.methods['transfer(address,uint256,bytes)'](receiver.address, transferAmt, [0x0]).send({ from: OWNER })
+      assert.isDefined(receipt.events.Transfer)
+      assert.isDefined(receipt.events.Transfer223)
     })
 
-    it('throws when sending to a non-NRC1 contract that didnt implement the tokenFallback', async () => {
+    it('throws when sending to a non-GRC223 contract that didnt implement the tokenFallback', async () => {
       assert.equal(await token.balanceOf(OWNER, { from: OWNER }), TOKEN_PARAMS.initialBalance)
       assert.isFalse(await nonReceiver.tokenFallbackExec.call())
 
