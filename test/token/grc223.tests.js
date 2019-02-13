@@ -1,5 +1,6 @@
 const { assert } = require('chai')
 
+const getConstants = require('../constants')
 const TimeMachine = require('../util/time-machine')
 const sassert = require('../util/sol-assert')
 const GRC223Mock = require('../data/grc223-mock')
@@ -10,10 +11,7 @@ const web3 = global.web3
 
 contract('GRC223', (accounts) => {
   const timeMachine = new TimeMachine(web3)
-  const OWNER = accounts[0]
-  const ACCT1 = accounts[1]
-  const ACCT2 = accounts[2]
-  const ACCT3 = accounts[3]
+  const { OWNER, ACCT1, ACCT2, ACCT3, INVALID_ADDR } = getConstants(accounts)
   const TOKEN_PARAMS = {
     name: 'TestToken',
     symbol: 'TTT',
@@ -21,8 +19,7 @@ contract('GRC223', (accounts) => {
     initialAccount: OWNER,
     initialBalance: 10000000,
   }
-  const INVALID_ADDR = '0x0000000000000000000000000000000000000000'
-
+  
   let token
   let receiver
   let nonReceiver
