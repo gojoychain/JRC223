@@ -10,8 +10,8 @@ contract StandardToken is GRC223 {
     string internal _name;
     string internal _symbol;
     uint8 internal _decimals;
-    mapping (address => uint256) _balances;
-    mapping (address => mapping (address => uint256)) _allowed;
+    mapping (address => uint256) internal _balances;
+    mapping (address => mapping (address => uint256)) internal _allowed;
 
     modifier validAddress(address _address) {
         require(_address != address(0), "Requires valid address.");
