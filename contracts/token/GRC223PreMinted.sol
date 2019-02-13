@@ -3,7 +3,7 @@ pragma solidity ^0.5.2;
 import "./GRC223.sol";
 import "../lib/Ownable.sol";
 
-contract PreMintedToken is GRC223, Ownable {
+contract GRC223PreMinted is GRC223, Ownable {
     /**
      * @dev Creates the token and mints the entire token supply to the owner.
      * @param name Name of the token.
