@@ -1,7 +1,7 @@
-const web3 = global.web3;
+const web3 = global.web3
 
-function BlockHeightManager() {
-  let snapshotId;
+function TimeMachine() {
+  let snapshotId
 
   this.proceedBlock = () => new Promise((resolve, reject) => {
     web3.currentProvider.send({
@@ -10,28 +10,28 @@ function BlockHeightManager() {
       id: new Date().getTime(),
     }, (err, result) => {
       if (err) {
-        return reject(err);
+        return reject(err)
       }
 
-      return resolve();
-    });
-  });
+      return resolve()
+    })
+  })
 
   this.mine = async (numOfBlocks) => {
-    let i = 0;
+    let i = 0
     for (i = 0; i < numOfBlocks; i++) {
-      await this.proceedBlock();
+      await this.proceedBlock()
     }
-  };
+  }
 
   this.mineTo = async (height) => {
-    const currentHeight = await web3.eth.getBlockNumber();
+    const currentHeight = await web3.eth.getBlockNumber()
     if (currentHeight > height) {
-      throw new Error(`Expecting height: ${height} is not reachable`);
+      throw new Error(`Expecting height: ${height} is not reachable`)
     }
 
-    return this.mine(height - currentHeight);
-  };
+    return this.mine(height - currentHeight)
+  }
 
   this.revert = () => new Promise((resolve, reject) => {
     web3.currentProvider.send({
@@ -41,12 +41,12 @@ function BlockHeightManager() {
       params: [snapshotId],
     }, (err, result) => {
       if (err) {
-        return reject(err);
+        return reject(err)
       }
 
-      return resolve(this.snapshot());
-    });
-  });
+      return resolve(this.snapshot())
+    })
+  })
 
   this.snapshot = () => new Promise((resolve, reject) => {
     web3.currentProvider.send({
@@ -56,13 +56,13 @@ function BlockHeightManager() {
       params: [],
     }, (err, result) => {
       if (err) {
-        return reject(err);
+        return reject(err)
       }
 
-      snapshotId = web3.utils.hexToNumber(result.result);
-      return resolve();
-    });
-  });
+      snapshotId = web3.utils.hexToNumber(result.result)
+      return resolve()
+    })
+  })
 }
 
-module.exports = BlockHeightManager;
+module.exports = TimeMachine

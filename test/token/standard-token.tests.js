@@ -3,14 +3,14 @@ const { assert } = require('chai')
 const StandardTokenMock = artifacts.require('./mock/StandardTokenMock.sol')
 const GRC223ReceiverMock = artifacts.require('./mock/GRC223ReceiverMock.sol')
 const NonReceiverMock = artifacts.require('./mock/NonReceiverMock.sol')
-const BlockHeightManager = require('../util/block-height-manager')
+const TimeMachine = require('../util/time-machine')
 const sassert = require('../util/sol-assert')
 const ABI = require('../data/abi')
 
 const web3 = global.web3
 
 contract('StandardToken', (accounts) => {
-  const blockHeightManager = new BlockHeightManager(web3)
+  const timeMachine = new TimeMachine(web3)
   const OWNER = accounts[0]
   const ACCT1 = accounts[1]
   const ACCT2 = accounts[2]
@@ -27,8 +27,8 @@ contract('StandardToken', (accounts) => {
   let receiver
   let nonReceiver
 
-  beforeEach(blockHeightManager.snapshot)
-  afterEach(blockHeightManager.revert)
+  beforeEach(timeMachine.snapshot)
+  afterEach(timeMachine.revert)
 
   beforeEach(async () => {
     token = await StandardTokenMock.new(...Object.values(TOKEN_PARAMS), { from: OWNER })
