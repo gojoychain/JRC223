@@ -1,8 +1,8 @@
 pragma solidity ^0.5.2;
 
-import "../token/StandardToken.sol";
+import "../token/GRC223.sol";
 
-contract StandardTokenMock is StandardToken {
+contract GRC223Mock is GRC223 {
     constructor(
         string memory name,
         string memory symbol,

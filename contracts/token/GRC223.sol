@@ -1,60 +1,94 @@
 pragma solidity ^0.5.2;
 
-/// @title GRC223 interface
-contract GRC223 {
-    uint256 internal _totalSupply;
+import "./IGRC223.sol";
+import "./GRC223Receiver.sol";
+import "../lib/SafeMath.sol";
 
-    event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Transfer223(address indexed from, address indexed to, uint256 amount, bytes data);
-    event Approval(address indexed owner, address indexed spender, uint256 amount);
+contract GRC223 is IGRC223 {
+    using SafeMath for uint256;
 
-    /// @return Name of the token.
-    function name() public view returns (string memory tokenName);
+    string internal _name;
+    string internal _symbol;
+    uint8 internal _decimals;
+    mapping (address => uint256) internal _balances;
+    mapping (address => mapping (address => uint256)) internal _allowed;
 
-    /// @return Symbol of the token.
-    function symbol() public view returns (string memory tokenSymbol);
-
-    /// @return Decimals of the token.
-    function decimals() public view returns (uint8 tokenDecimals);
-
-    /// @return Total supply of tokens.
-    function totalSupply() public view returns (uint256 supply) {
-        return _totalSupply;
+    modifier validAddress(address _address) {
+        require(_address != address(0), "Requires valid address.");
+        _;
     }
 
-    /// @dev Gets the balance of the specified address.
-    /// @param owner Address to query the the balance of.
-    /// @return Balance of the owner.
-    function balanceOf(address owner) public view returns (uint256 balance);
+    function name() public view returns (string memory tokenName) {
+        return _name;
+    }
 
-    /// @dev Gets the approved amount between the owner and spender.
-    /// @param owner Address of the approver.
-    /// @param spender Address of the approvee.
-    function allowance(address owner, address spender) public view returns (uint256 remaining);
+    function symbol() public view returns (string memory tokenSymbol) {
+        return _symbol;
+    }
 
-    /// @dev Transfer tokens to a specified address.
-    /// @param to The address to transfer to.
-    /// @param amount The amount to be transferred.
-    /// @return Transfer successful or not.
-    function transfer(address to, uint256 amount) public returns (bool success);
+    function decimals() public view returns (uint8 tokenDecimals) {
+        return _decimals;
+    }
 
-    /// @dev Transfer tokens to a specified address with data. A receiver who is a contract must implement the GRC223Receiver interface.
-    /// @param to The address to transfer to.
-    /// @param amount The amount to be transferred.
-    /// @param data Transaction metadata.
-    /// @return Transfer successful or not.
-    function transfer(address to, uint256 amount, bytes memory data) public returns (bool success);
+    function balanceOf(address owner) public view returns (uint256 balance) {
+        return _balances[owner];
+    }
 
-    /// @dev Approves the spender to be able to withdraw up to the amount.
-    /// @param spender Address of spender.
-    /// @param amount Allowed amount the spender may transfer up to.
-    /// @return Approve successful or not.
-    function approve(address spender, uint256 amount) public returns (bool success);
+    function allowance(address owner, address spender) public view returns (uint256 remaining) {
+        return _allowed[owner][spender];
+    }
 
-    /// @dev Transfer tokens for a previously approved amount.
-    /// @param from Address which tokens will be transferred from.
-    /// @param to Address which tokens will be transferred to.
-    /// @param amount Amount of tokens to be transferred.
-    /// @return Transfer successful or not.
-    function transferFrom(address from, address to, uint256 amount) public returns (bool success);
+    function transfer(address to, uint256 amount) public validAddress(to) returns (bool success) {
+        _balances[msg.sender] = _balances[msg.sender].sub(amount);
+        _balances[to] = _balances[to].add(amount);
+
+        bytes memory empty;
+        emit Transfer(msg.sender, to, amount);
+        emit Transfer223(msg.sender, to, amount, empty);
+        return true;
+    }
+
+    function transfer(address to, uint256 amount, bytes memory data) public validAddress(to) returns (bool success) {
+        uint codeLength;
+        assembly {
+            // Retrieve the size of the code on target address, this needs assembly
+            codeLength := extcodesize(to)
+        }
+
+        _balances[msg.sender] = _balances[msg.sender].sub(amount);
+        _balances[to] = _balances[to].add(amount);
+
+        // Call tokenFallback() if 'to' is a contract. Rejects if not implemented.
+        if (codeLength > 0) {
+            GRC223Receiver(to).tokenFallback(msg.sender, amount, data);
+        }
+
+        emit Transfer(msg.sender, to, amount);
+        emit Transfer223(msg.sender, to, amount, data);
+        return true;
+    }
+
+    function approve(address spender, uint256 amount) public returns (bool success) {
+        // To change the approve amount you first have to reduce the addresses'
+        //  allowance to zero by calling `approve(spender, 0)` if it is not
+        //  already 0 to mitigate the race condition described here:
+        //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+        require((amount == 0) || (_allowed[msg.sender][spender] == 0), "Requires amount to be 0 or current allowance to be 0");
+
+        _allowed[msg.sender][spender] = amount;
+        emit Approval(msg.sender, spender, amount);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 amount) public validAddress(to) returns (bool success) {
+        uint256 _allowance = _allowed[from][msg.sender];
+        _balances[from] = _balances[from].sub(amount);
+        _balances[to] = _balances[to].add(amount);
+        _allowed[from][msg.sender] = _allowance.sub(amount);
+
+        bytes memory empty;
+        emit Transfer(from, to, amount);
+        emit Transfer223(from, to, amount, empty);
+        return true;
+    }
 }

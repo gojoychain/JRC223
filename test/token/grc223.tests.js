@@ -3,13 +3,13 @@ const { assert } = require('chai')
 const TimeMachine = require('../util/time-machine')
 const sassert = require('../util/sol-assert')
 const ABI = require('../data/abi')
-const StandardTokenMock = artifacts.require('./mock/StandardTokenMock.sol')
+const GRC223Mock = artifacts.require('./mock/GRC223Mock.sol')
 const GRC223ReceiverMock = artifacts.require('./mock/GRC223ReceiverMock.sol')
 const NonReceiverMock = artifacts.require('./mock/NonReceiverMock.sol')
 
 const web3 = global.web3
 
-contract('StandardToken', (accounts) => {
+contract('GRC223', (accounts) => {
   const timeMachine = new TimeMachine(web3)
   const OWNER = accounts[0]
   const ACCT1 = accounts[1]
@@ -31,7 +31,7 @@ contract('StandardToken', (accounts) => {
   afterEach(timeMachine.revert)
 
   beforeEach(async () => {
-    token = await StandardTokenMock.new(...Object.values(TOKEN_PARAMS), { from: OWNER })
+    token = await GRC223Mock.new(...Object.values(TOKEN_PARAMS), { from: OWNER })
     receiver = await GRC223ReceiverMock.new({ from: OWNER })
     nonReceiver = await NonReceiverMock.new({ from: OWNER })
   })
@@ -115,7 +115,7 @@ contract('StandardToken', (accounts) => {
       assert.isFalse(await receiver.tokenFallbackExec.call())
 
       const transferAmt = 1234567
-      const contract = new web3.eth.Contract(ABI.StandardTokenMock, token.address)
+      const contract = new web3.eth.Contract(ABI.GRC223Mock, token.address)
       await contract.methods['transfer(address,uint256,bytes)'](receiver.address, transferAmt, [0x0]).send({ from: OWNER })
 
       assert.equal(await contract.methods.balanceOf(OWNER).call(), TOKEN_PARAMS.initialBalance - transferAmt)
@@ -125,7 +125,7 @@ contract('StandardToken', (accounts) => {
 
     it('should emit both Transfer events', async () => {
       const transferAmt = 1234567
-      const contract = new web3.eth.Contract(ABI.StandardTokenMock, token.address)
+      const contract = new web3.eth.Contract(ABI.GRC223Mock, token.address)
       let receipt = await contract.methods['transfer(address,uint256)'](receiver.address, transferAmt).send({ from: OWNER })
       assert.isDefined(receipt.events.Transfer)
       assert.isDefined(receipt.events.Transfer223)
@@ -139,7 +139,7 @@ contract('StandardToken', (accounts) => {
       assert.equal(await token.balanceOf(OWNER, { from: OWNER }), TOKEN_PARAMS.initialBalance)
       assert.isFalse(await nonReceiver.tokenFallbackExec.call())
 
-      const contract = new web3.eth.Contract(ABI.StandardTokenMock, token.address)
+      const contract = new web3.eth.Contract(ABI.GRC223Mock, token.address)
       const transferAmt = 1234567
       try {
         await contract.methods['transfer(address,uint256,bytes)'](nonReceiver.address, transferAmt, [0x0]).send({ from: OWNER })
