@@ -13,8 +13,8 @@ contract TokenFactory {
     );
 
     function createPreMintedToken(
-        string name,
-        string symbol,
+        string calldata name,
+        string calldata symbol,
         uint8 decimals,
         uint256 totalSupply,
         address owner)

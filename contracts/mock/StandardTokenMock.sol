@@ -4,8 +4,8 @@ import "../token/StandardToken.sol";
 
 contract StandardTokenMock is StandardToken {
     constructor(
-        string name,
-        string symbol,
+        string memory name,
+        string memory symbol,
         uint8 decimals,
         address initialAccount,
         uint256 initialBalance) 

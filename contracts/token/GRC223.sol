@@ -5,14 +5,14 @@ contract GRC223 {
     uint256 internal _totalSupply;
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Transfer(address indexed from, address indexed to, uint256 amount, bytes data);
+    event Transfer223(address indexed from, address indexed to, uint256 amount, bytes data);
     event Approval(address indexed owner, address indexed spender, uint256 amount);
 
     /// @return Name of the token.
-    function name() public view returns (string tokenName);
+    function name() public view returns (string memory tokenName);
 
     /// @return Symbol of the token.
-    function symbol() public view returns (string tokenSymbol);
+    function symbol() public view returns (string memory tokenSymbol);
 
     /// @return Decimals of the token.
     function decimals() public view returns (uint8 tokenDecimals);
@@ -43,7 +43,7 @@ contract GRC223 {
     /// @param amount The amount to be transferred.
     /// @param data Transaction metadata.
     /// @return Transfer successful or not.
-    function transfer(address to, uint256 amount, bytes data) public returns (bool success);
+    function transfer(address to, uint256 amount, bytes memory data) public returns (bool success);
 
     /// @dev Approves the spender to be able to withdraw up to the amount.
     /// @param spender Address of spender.

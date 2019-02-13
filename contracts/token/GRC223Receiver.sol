@@ -6,5 +6,5 @@ contract GRC223Receiver {
     /// @param from Token sender address.
     /// @param amount Amount of tokens.
     /// @param data Transaction metadata.
-    function tokenFallback(address from, uint amount, bytes data) external;
+    function tokenFallback(address from, uint amount, bytes calldata data) external;
 }

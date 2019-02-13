@@ -18,11 +18,11 @@ contract StandardToken is GRC223 {
         _;
     }
 
-    function name() public view returns (string tokenName) {
+    function name() public view returns (string memory tokenName) {
         return _name;
     }
 
-    function symbol() public view returns (string tokenSymbol) {
+    function symbol() public view returns (string memory tokenSymbol) {
         return _symbol;
     }
 
@@ -44,11 +44,11 @@ contract StandardToken is GRC223 {
 
         bytes memory empty;
         emit Transfer(msg.sender, to, amount);
-        emit Transfer(msg.sender, to, amount, empty);
+        emit Transfer223(msg.sender, to, amount, empty);
         return true;
     }
 
-    function transfer(address to, uint256 amount, bytes data) public validAddress(to) returns (bool success) {
+    function transfer(address to, uint256 amount, bytes memory data) public validAddress(to) returns (bool success) {
         uint codeLength;
         assembly {
             // Retrieve the size of the code on target address, this needs assembly
@@ -64,7 +64,7 @@ contract StandardToken is GRC223 {
         }
 
         emit Transfer(msg.sender, to, amount);
-        emit Transfer(msg.sender, to, amount, data);
+        emit Transfer223(msg.sender, to, amount, data);
         return true;
     }
 
@@ -88,7 +88,7 @@ contract StandardToken is GRC223 {
 
         bytes memory empty;
         emit Transfer(from, to, amount);
-        emit Transfer(from, to, amount, empty);
+        emit Transfer223(from, to, amount, empty);
         return true;
     }
 }

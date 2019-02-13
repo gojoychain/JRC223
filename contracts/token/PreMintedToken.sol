@@ -13,8 +13,8 @@ contract PreMintedToken is StandardToken, Ownable {
      * @param owner Owner of all the tokens.
      */
     constructor(
-        string name,
-        string symbol,
+        string memory name,
+        string memory symbol,
         uint8 decimals,
         uint256 totalSupply,
         address owner)
@@ -33,7 +33,7 @@ contract PreMintedToken is StandardToken, Ownable {
         _balances[owner] = totalSupply;
 
         bytes memory empty;
-        emit Transfer(0x0, owner, totalSupply);
-        emit Transfer(0x0, owner, totalSupply, empty);
+        emit Transfer(address(0), owner, totalSupply);
+        emit Transfer223(address(0), owner, totalSupply, empty);
     }
 }
