@@ -1,12 +1,10 @@
 const web3 = global.web3;
-const bluebird = require('bluebird');
 
 function BlockHeightManager() {
-  const getBlockNumber = bluebird.promisify(web3.eth.getBlockNumber);
   let snapshotId;
 
   this.proceedBlock = () => new Promise((resolve, reject) => {
-    web3.currentProvider.sendAsync({
+    web3.currentProvider.send({
       jsonrpc: '2.0',
       method: 'evm_mine',
       id: new Date().getTime(),
@@ -27,7 +25,7 @@ function BlockHeightManager() {
   };
 
   this.mineTo = async (height) => {
-    const currentHeight = await getBlockNumber();
+    const currentHeight = await web3.eth.getBlockNumber();
     if (currentHeight > height) {
       throw new Error(`Expecting height: ${height} is not reachable`);
     }
@@ -36,7 +34,7 @@ function BlockHeightManager() {
   };
 
   this.revert = () => new Promise((resolve, reject) => {
-    web3.currentProvider.sendAsync({
+    web3.currentProvider.send({
       jsonrpc: '2.0',
       method: 'evm_revert',
       id: new Date().getTime(),
@@ -51,7 +49,7 @@ function BlockHeightManager() {
   });
 
   this.snapshot = () => new Promise((resolve, reject) => {
-    web3.currentProvider.sendAsync({
+    web3.currentProvider.send({
       jsonrpc: '2.0',
       method: 'evm_snapshot',
       id: new Date().getTime(),
@@ -61,7 +59,7 @@ function BlockHeightManager() {
         return reject(err);
       }
 
-      snapshotId = web3.toDecimal(result.result);
+      snapshotId = web3.utils.hexToNumber(result.result);
       return resolve();
     });
   });

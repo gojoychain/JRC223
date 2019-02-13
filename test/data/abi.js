@@ -1,6 +1,20 @@
 module.exports = {
   StandardTokenMock: [
     {
+      "constant": true,
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "name": "tokenName",
+          "type": "string"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "constant": false,
       "inputs": [
         {
@@ -29,7 +43,7 @@ module.exports = {
       "name": "totalSupply",
       "outputs": [
         {
-          "name": "",
+          "name": "supply",
           "type": "uint256"
         }
       ],
@@ -66,6 +80,20 @@ module.exports = {
     },
     {
       "constant": true,
+      "inputs": [],
+      "name": "decimals",
+      "outputs": [
+        {
+          "name": "tokenDecimals",
+          "type": "uint8"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
       "inputs": [
         {
           "name": "owner",
@@ -77,6 +105,20 @@ module.exports = {
         {
           "name": "balance",
           "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "name": "tokenSymbol",
+          "type": "string"
         }
       ],
       "payable": false,
@@ -159,6 +201,18 @@ module.exports = {
     {
       "inputs": [
         {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "decimals",
+          "type": "uint8"
+        },
+        {
           "name": "initialAccount",
           "type": "address"
         },
@@ -188,6 +242,28 @@ module.exports = {
           "indexed": false,
           "name": "amount",
           "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -195,7 +271,7 @@ module.exports = {
           "type": "bytes"
         }
       ],
-      "name": "Transfer",
+      "name": "Transfer223",
       "type": "event"
     },
     {

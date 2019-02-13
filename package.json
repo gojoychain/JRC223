@@ -27,7 +27,6 @@
   "homepage": "https://github.com/ghuchain/GRC223#readme",
   "dependencies": {},
   "devDependencies": {
-    "bluebird": "^3.5.3",
     "chai": "^4.2.0",
     "mocha": "^5.2.0"
   }
