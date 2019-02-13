@@ -178,7 +178,7 @@ contract('GRC223', (accounts) => {
           [0x0],
         ).send({ from: OWNER })
       } catch (e) {
-        sassert.assertRevert(e)
+        sassert.revert(e)
       }
       
       assert.equal(await token.methods.balanceOf(OWNER).call(), TOKEN_PARAMS.initialBalance)
@@ -194,7 +194,7 @@ contract('GRC223', (accounts) => {
           [0x0],
         ).send({ from: OWNER })
       } catch (e) {
-        sassert.assertRevert(e)
+        sassert.revert(e)
       }
     })
 
@@ -207,7 +207,7 @@ contract('GRC223', (accounts) => {
           [0x0],
         ).send({ from: OWNER })
       } catch (e) {
-        sassert.assertInvalidOpcode(e)
+        sassert.invalidOpcode(e)
       }
 
       try {
@@ -217,7 +217,7 @@ contract('GRC223', (accounts) => {
           [0x0],
         ).send({ from: ACCT2 })
       } catch (e) {
-        sassert.assertInvalidOpcode(e)
+        sassert.invalidOpcode(e)
       }
     })
   })
@@ -274,7 +274,7 @@ contract('GRC223', (accounts) => {
           1,
         ).send({ from: OWNER })
       } catch (e) {
-        sassert.assertRevert(e)
+        sassert.revert(e)
       }
     })
 
@@ -286,7 +286,7 @@ contract('GRC223', (accounts) => {
           TOKEN_PARAMS.initialBalance + 1,
         ).send({ from: OWNER })
       } catch (e) {
-        sassert.assertInvalidOpcode(e)
+        sassert.invalidOpcode(e)
       }
 
       try {
@@ -295,7 +295,7 @@ contract('GRC223', (accounts) => {
           1,
         ).send({ from: ACCT2 })
       } catch (e) {
-        sassert.assertInvalidOpcode(e)
+        sassert.invalidOpcode(e)
       }
     })
   })
@@ -319,7 +319,7 @@ contract('GRC223', (accounts) => {
       try {
         await token.methods.approve(ACCT1, 123).send({ from: OWNER })
       } catch (e) {
-        sassert.assertRevert(e)
+        sassert.revert(e)
       }
     })
   })
@@ -364,7 +364,7 @@ contract('GRC223', (accounts) => {
       try {
         await token.methods.transferFrom(OWNER, INVALID_ADDR, 1000).send({ from: ACCT1 })
       } catch (e) {
-        sassert.assertRevert(e)
+        sassert.revert(e)
       }
     })
 
@@ -376,7 +376,7 @@ contract('GRC223', (accounts) => {
       try {
         await token.methods.transferFrom(OWNER, ACCT1, acct1Allowance).send({ from: ACCT1 })
       } catch (e) {
-        sassert.assertInvalidOpcode(e)
+        sassert.invalidOpcode(e)
       }
     })
 
@@ -388,7 +388,7 @@ contract('GRC223', (accounts) => {
       try {
         await token.methods.transferFrom(OWNER, ACCT1, acct1Allowance + 1).send({ from: ACCT1 })
       } catch (e) {
-        sassert.assertInvalidOpcode(e)
+        sassert.invalidOpcode(e)
       }
     })
   })
