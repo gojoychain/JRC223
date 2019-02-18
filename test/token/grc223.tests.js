@@ -165,8 +165,8 @@ contract('GRC223', (accounts) => {
         transferAmt,
         [0x0],
       ).send({ from: OWNER })
-      assert.isDefined(receipt.events.Transfer)
-      assert.isDefined(receipt.events.Transfer223)
+      sassert.event(receipt, 'Transfer')
+      sassert.event(receipt, 'Transfer223')
     })
 
     it('throws when sending to a non-GRC223 contract that didnt implement the tokenFallback', async () => {
@@ -266,8 +266,8 @@ contract('GRC223', (accounts) => {
         ACCT1,
         1,
       ).send({ from: OWNER })
-      assert.isDefined(receipt.events.Transfer)
-      assert.isDefined(receipt.events.Transfer223)
+      sassert.event(receipt, 'Transfer')
+      sassert.event(receipt, 'Transfer223')
     })
 
     it('should throw if the to address is not valid', async () => {
