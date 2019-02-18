@@ -1,4 +1,4 @@
-pragma solidity ^0.5.2;
+pragma solidity ^0.5.4;
 
 import "./IGRC223.sol";
 import "./GRC223Receiver.sol";
