@@ -25,7 +25,7 @@ contract('GRC223Factory', (accounts) => {
     await timeMachine.revert
   })
 
-  describe.only('createGRC223PreMinted', () => {
+  describe('createGRC223PreMinted', () => {
     // TODO: Contract deploys fine on Remix, but test does not pass
     it('should create a new token contract', async () => {
       const tx1 = await factory.methods.createGRC223PreMinted(
