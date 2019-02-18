@@ -2,7 +2,7 @@ pragma solidity ^0.5.2;
 
 import "../token/GRC223PreMinted.sol";
 
-contract TokenFactory {
+contract GRC223Factory {
     event GRC223PreMintedCreated(
         address indexed tokenAddress,
         string name,
@@ -19,7 +19,7 @@ contract TokenFactory {
         uint256 totalSupply,
         address owner)
         external
-        returns (GRC223PreMinted preMintToken)
+        returns (GRC223PreMinted tokenAddress)
     {
         GRC223PreMinted token = new GRC223PreMinted(name, symbol, decimals, totalSupply, owner);
         emit GRC223PreMintedCreated(address(token), name, symbol, decimals, totalSupply, owner);
