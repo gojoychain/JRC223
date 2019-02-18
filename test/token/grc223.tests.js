@@ -24,10 +24,9 @@ contract('GRC223', (accounts) => {
   let receiver
   let nonReceiver
 
-  beforeEach(timeMachine.snapshot)
-  afterEach(timeMachine.revert)
-
   beforeEach(async () => {
+    await timeMachine.snapshot
+
     token = new web3.eth.Contract(GRC223Mock.abi)
     token = await token.deploy({
       data: GRC223Mock.bytecode,
@@ -51,6 +50,10 @@ contract('GRC223', (accounts) => {
       data: NonReceiverMock.bytecode,
       arguments: [],
     }).send({ from: OWNER, gas: 4712388 })
+  })
+  
+  afterEach(async () => {
+    await timeMachine.revert
   })
 
   describe('constructor', async () => {

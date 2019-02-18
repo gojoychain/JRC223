@@ -12,4 +12,7 @@ module.exports = Object.freeze({
   bytesStrEqual(bytesString, string) {
     assert.equal(web3.toUtf8(bytesString), string)
   },
+  event(txReceipt, eventName) {
+    assert.isDefined(txReceipt.events[eventName])
+  },
 })
