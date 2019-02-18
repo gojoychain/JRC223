@@ -25,8 +25,8 @@ contract('GRC223Factory', (accounts) => {
     await timeMachine.revert
   })
 
+  // TODO: Contract deploys fine on Remix, but tests does not pass
   describe('createGRC223PreMinted', () => {
-    // TODO: Contract deploys fine on Remix, but test does not pass
     it('should create a new token contract', async () => {
       const tx1 = await factory.methods.createGRC223PreMinted(
         'TestToken1', 'TT1', 8, 1000000, ACCT1
@@ -34,7 +34,6 @@ contract('GRC223Factory', (accounts) => {
       const token1Addr = tx1.logs[0].args.tokenAddress
       assert.isDefined(token1Addr)
       assert.notEqual(token1Addr, INVALID_ADDR)
-      sassert.event(tx1, 'GRC223PreMintedCreated')
 
       const tx2 = await factory.methods.createGRC223PreMinted(
         'TestToken2', 'TT2', 8, 1000000, ACCT2
@@ -42,9 +41,15 @@ contract('GRC223Factory', (accounts) => {
       const token2Addr = tx2.logs[0].args.tokenAddress
       assert.isDefined(token2Addr)
       assert.notEqual(token2Addr, INVALID_ADDR)
-      sassert.event(tx2, 'GRC223PreMintedCreated')
 
       assert.notEqual(token1Addr, token2Addr)
+    })
+
+    it('should emit the created event', async () => {
+      const tx1 = await factory.methods.createGRC223PreMinted(
+        'TestToken1', 'TT1', 8, 1000000, ACCT1
+      ).send({ from: ACCT1 })
+      sassert.event(tx1, 'GRC223PreMintedCreated')
     })
   })
 })
