@@ -44,7 +44,7 @@ contract GRC223 is IGRC223 {
 
         bytes memory empty;
         emit Transfer(msg.sender, to, amount);
-        emit Transfer223(msg.sender, to, amount, empty);
+        emit Transfer(msg.sender, to, amount, empty);
         return true;
     }
 
@@ -64,7 +64,7 @@ contract GRC223 is IGRC223 {
         }
 
         emit Transfer(msg.sender, to, amount);
-        emit Transfer223(msg.sender, to, amount, data);
+        emit Transfer(msg.sender, to, amount, data);
         return true;
     }
 
@@ -88,7 +88,7 @@ contract GRC223 is IGRC223 {
 
         bytes memory empty;
         emit Transfer(from, to, amount);
-        emit Transfer223(from, to, amount, empty);
+        emit Transfer(from, to, amount, empty);
         return true;
     }
 }

@@ -51,8 +51,8 @@ contract('PreMintedToken', (accounts) => {
     })
 
     it('should emit both Transfer events', async () => {
-      sassert.event(token, 'Transfer')
-      sassert.event(token, 'Transfer223')
+      sassert.event(token, 'Transfer(address,address,uint256)')
+      sassert.event(token, 'Transfer(address,address,uint256,bytes)')
     })
 
     it('throws if owner is not valid', async () => {

@@ -5,7 +5,7 @@ contract IGRC223 {
     uint256 internal _totalSupply;
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
-    event Transfer223(address indexed from, address indexed to, uint256 amount, bytes data);
+    event Transfer(address indexed from, address indexed to, uint256 amount, bytes data);
     event Approval(address indexed owner, address indexed spender, uint256 amount);
 
     /// @return Name of the token.
