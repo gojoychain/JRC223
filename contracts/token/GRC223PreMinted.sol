@@ -34,6 +34,6 @@ contract GRC223PreMinted is GRC223, Ownable {
 
         bytes memory empty;
         emit Transfer(address(0), owner, totalSupply);
-        emit Transfer223(address(0), owner, totalSupply, empty);
+        emit Transfer(address(0), owner, totalSupply, empty);
     }
 }

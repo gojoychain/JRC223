@@ -1,8 +1,8 @@
 const { assert } = require('chai')
+const TimeMachine = require('sol-time-machine')
+const sassert = require('sol-assert')
 
 const getConstants = require('../constants')
-const TimeMachine = require('../util/time-machine')
-const sassert = require('../util/sol-assert')
 const GRC223Mock = require('../data/grc223-mock')
 const GRC223ReceiverMock = require('../data/grc223-receiver-mock')
 const NonReceiverMock = require('../data/non-receiver-mock')
@@ -10,7 +10,6 @@ const NonReceiverMock = require('../data/non-receiver-mock')
 const web3 = global.web3
 
 contract('GRC223', (accounts) => {
-  const timeMachine = new TimeMachine(web3)
   const { OWNER, ACCT1, ACCT2, ACCT3, INVALID_ADDR } = getConstants(accounts)
   const TOKEN_PARAMS = {
     name: 'TestToken',
@@ -19,6 +18,7 @@ contract('GRC223', (accounts) => {
     initialAccount: OWNER,
     initialBalance: 10000000,
   }
+  const timeMachine = new TimeMachine(web3)
   
   let token
   let receiver
@@ -165,8 +165,7 @@ contract('GRC223', (accounts) => {
         transferAmt,
         [0x0],
       ).send({ from: OWNER })
-      sassert.event(receipt, 'Transfer')
-      sassert.event(receipt, 'Transfer223')
+      sassert.event(receipt, 'Transfer', 2)
     })
 
     it('throws when sending to a non-GRC223 contract that didnt implement the tokenFallback', async () => {
@@ -266,8 +265,7 @@ contract('GRC223', (accounts) => {
         ACCT1,
         1,
       ).send({ from: OWNER })
-      sassert.event(receipt, 'Transfer')
-      sassert.event(receipt, 'Transfer223')
+      sassert.event(receipt, 'Transfer', 2)
     })
 
     it('should throw if the to address is not valid', async () => {
