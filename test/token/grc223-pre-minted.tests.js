@@ -1,7 +1,7 @@
 const { assert } = require('chai')
+const TimeMachine = require('sol-time-machine')
+const sassert = require('sol-assert')
 
-const TimeMachine = require('../util/time-machine')
-const sassert = require('../util/sol-assert')
 const getConstants = require('../constants')
 const GRC223PreMinted = require('../data/grc223-pre-minted')
 

@@ -1,13 +1,13 @@
 const { assert } = require('chai')
+const TimeMachine = require('sol-time-machine')
+const sassert = require('sol-assert')
 
-const TimeMachine = require('../util/time-machine')
-const sassert = require('../util/sol-assert')
 const getConstants = require('../constants')
 const GRC223Factory = require('../data/grc223-factory')
 
 contract('GRC223Factory', (accounts) => {
   const { OWNER, ACCT1, ACCT2, INVALID_ADDR } = getConstants(accounts)
-  const timeMachine = new TimeMachine(web3)
+  const timeMachine = new TimeMachine(global.web3)
 
   let factory
 
