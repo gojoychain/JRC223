@@ -1,7 +1,7 @@
 {
-  "name": "grc223",
+  "name": "jrc223",
   "version": "1.0.0",
-  "description": "Token standard for Ghuchain",
+  "description": "ERC223 token standard",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ghuchain/GRC223.git"
+    "url": "git+https://github.com/gojoychain/JRC223.git"
   },
   "keywords": [
     "ghuchain",
@@ -22,9 +22,9 @@
   "author": "Deric Walintukan <deric@ghuchain.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ghuchain/GRC223/issues"
+    "url": "https://github.com/gojoychain/JRC223/issues"
   },
-  "homepage": "https://github.com/ghuchain/GRC223#readme",
+  "homepage": "https://github.com/gojoychain/JRC223#readme",
   "dependencies": {},
   "devDependencies": {
     "chai": "^4.2.0",

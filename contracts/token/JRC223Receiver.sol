@@ -1,8 +1,8 @@
 pragma solidity ^0.5.4;
 
-/// @title GRC223 receiver interface
-contract GRC223Receiver { 
-    /// @dev Standard GRC223 function that will handle incoming token transfers.
+/// @title JRC223 receiver interface
+contract JRC223Receiver { 
+    /// @dev Standard JRC223 function that will handle incoming token transfers.
     /// @param from Token sender address.
     /// @param amount Amount of tokens.
     /// @param data Transaction metadata.

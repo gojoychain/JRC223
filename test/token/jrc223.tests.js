@@ -3,13 +3,13 @@ const TimeMachine = require('sol-time-machine')
 const sassert = require('sol-assert')
 
 const getConstants = require('../constants')
-const GRC223Mock = require('../data/grc223-mock')
-const GRC223ReceiverMock = require('../data/grc223-receiver-mock')
+const JRC223Mock = require('../data/jrc223-mock')
+const JRC223ReceiverMock = require('../data/jrc223-receiver-mock')
 const NonReceiverMock = require('../data/non-receiver-mock')
 
 const web3 = global.web3
 
-contract('GRC223', (accounts) => {
+contract('JRC223', (accounts) => {
   const { OWNER, ACCT1, ACCT2, ACCT3, INVALID_ADDR } = getConstants(accounts)
   const TOKEN_PARAMS = {
     name: 'TestToken',
@@ -27,9 +27,9 @@ contract('GRC223', (accounts) => {
   beforeEach(async () => {
     await timeMachine.snapshot
 
-    token = new web3.eth.Contract(GRC223Mock.abi)
+    token = new web3.eth.Contract(JRC223Mock.abi)
     token = await token.deploy({
-      data: GRC223Mock.bytecode,
+      data: JRC223Mock.bytecode,
       arguments: [
         TOKEN_PARAMS.name,
         TOKEN_PARAMS.symbol, 
@@ -39,9 +39,9 @@ contract('GRC223', (accounts) => {
       ],
     }).send({ from: OWNER, gas: 4712388 })
 
-    receiver = new web3.eth.Contract(GRC223ReceiverMock.abi)
+    receiver = new web3.eth.Contract(JRC223ReceiverMock.abi)
     receiver = await receiver.deploy({
-      data: GRC223ReceiverMock.bytecode,
+      data: JRC223ReceiverMock.bytecode,
       arguments: [],
     }).send({ from: OWNER, gas: 4712388 })
     
@@ -142,7 +142,7 @@ contract('GRC223', (accounts) => {
       assert.equal(await token.methods.balanceOf(ACCT2).call(), 0)
     })
 
-    it('transfers the token to GRC223 contract and calls tokenFallback', async () => {
+    it('transfers the token to JRC223 contract and calls tokenFallback', async () => {
       assert.equal(await token.methods.balanceOf(OWNER).call(), TOKEN_PARAMS.initialBalance)
       assert.isFalse(await receiver.methods.tokenFallbackExec().call())
 
@@ -168,7 +168,7 @@ contract('GRC223', (accounts) => {
       sassert.event(receipt, 'Transfer', 2)
     })
 
-    it('throws when sending to a non-GRC223 contract that didnt implement the tokenFallback', async () => {
+    it('throws when sending to a non-JRC223 contract that didnt implement the tokenFallback', async () => {
       assert.equal(await token.methods.balanceOf(OWNER).call(), TOKEN_PARAMS.initialBalance)
       assert.isFalse(await nonReceiver.methods.tokenFallbackExec().call())
 

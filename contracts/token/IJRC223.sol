@@ -1,7 +1,7 @@
 pragma solidity ^0.5.4;
 
-/// @title GRC223 interface
-contract IGRC223 {
+/// @title JRC223 interface
+contract IJRC223 {
     uint256 internal _totalSupply;
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
@@ -38,7 +38,7 @@ contract IGRC223 {
     /// @return Transfer successful or not.
     function transfer(address to, uint256 amount) public returns (bool success);
 
-    /// @dev Transfer tokens to a specified address with data. A receiver who is a contract must implement the GRC223Receiver interface.
+    /// @dev Transfer tokens to a specified address with data. A receiver who is a contract must implement the JRC223Receiver interface.
     /// @param to The address to transfer to.
     /// @param amount The amount to be transferred.
     /// @param data Transaction metadata.
