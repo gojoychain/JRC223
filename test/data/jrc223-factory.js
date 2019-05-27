@@ -34,7 +34,7 @@ module.exports = {
           "type": "address"
         }
       ],
-      "name": "GRC223PreMintedCreated",
+      "name": "JRC223PreMintedCreated",
       "type": "event"
     },
     {
@@ -61,7 +61,7 @@ module.exports = {
           "type": "address"
         }
       ],
-      "name": "createGRC223PreMinted",
+      "name": "createJRC223PreMinted",
       "outputs": [
         {
           "name": "tokenAddress",
