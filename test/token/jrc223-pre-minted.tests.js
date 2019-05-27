@@ -3,7 +3,7 @@ const TimeMachine = require('sol-time-machine')
 const sassert = require('sol-assert')
 
 const getConstants = require('../constants')
-const GRC223PreMinted = require('../data/grc223-pre-minted')
+const JRC223PreMinted = require('../data/jrc223-pre-minted')
 
 const web3 = global.web3
 
@@ -23,9 +23,9 @@ contract('PreMintedToken', (accounts) => {
   beforeEach(async () => {
     await timeMachine.snapshot
 
-    token = new web3.eth.Contract(GRC223PreMinted.abi)
+    token = new web3.eth.Contract(JRC223PreMinted.abi)
     token = await token.deploy({
-      data: GRC223PreMinted.bytecode,
+      data: JRC223PreMinted.bytecode,
       arguments: [
         TOKEN_PARAMS.name,
         TOKEN_PARAMS.symbol, 
@@ -58,7 +58,7 @@ contract('PreMintedToken', (accounts) => {
     it('throws if owner is not valid', async () => {
       try {
         await token.deploy({
-          data: GRC223PreMinted.bytecode,
+          data: JRC223PreMinted.bytecode,
           arguments: [
             TOKEN_PARAMS.name,
             TOKEN_PARAMS.symbol, 
@@ -75,7 +75,7 @@ contract('PreMintedToken', (accounts) => {
     it('throws if name is empty', async () => {
       try {
         await token.deploy({
-          data: GRC223PreMinted.bytecode,
+          data: JRC223PreMinted.bytecode,
           arguments: [
             '',
             TOKEN_PARAMS.symbol, 
@@ -92,7 +92,7 @@ contract('PreMintedToken', (accounts) => {
     it('throws if symbol is empty', async () => {
       try {
         await token.deploy({
-          data: GRC223PreMinted.bytecode,
+          data: JRC223PreMinted.bytecode,
           arguments: [
             TOKEN_PARAMS.name, 
             '',
@@ -109,7 +109,7 @@ contract('PreMintedToken', (accounts) => {
     it('throws if totalSupply is not greater than 0', async () => {
       try {
         await token.deploy({
-          data: GRC223PreMinted.bytecode,
+          data: JRC223PreMinted.bytecode,
           arguments: [
             TOKEN_PARAMS.name, 
             TOKEN_PARAMS.symbol,

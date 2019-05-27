@@ -1,10 +1,10 @@
 pragma solidity ^0.5.4;
 
-import "./IGRC223.sol";
-import "./GRC223Receiver.sol";
+import "./IJRC223.sol";
+import "./JRC223Receiver.sol";
 import "../lib/SafeMath.sol";
 
-contract GRC223 is IGRC223 {
+contract JRC223 is IJRC223 {
     using SafeMath for uint256;
 
     string internal _name;
@@ -60,7 +60,7 @@ contract GRC223 is IGRC223 {
 
         // Call tokenFallback() if 'to' is a contract. Rejects if not implemented.
         if (codeLength > 0) {
-            GRC223Receiver(to).tokenFallback(msg.sender, amount, data);
+            JRC223Receiver(to).tokenFallback(msg.sender, amount, data);
         }
 
         emit Transfer(msg.sender, to, amount);
